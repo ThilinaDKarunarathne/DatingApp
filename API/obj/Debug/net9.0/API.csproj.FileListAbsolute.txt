@@ -150,3 +150,11 @@ C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.Extensions.
 C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
 C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\UserA\Desktop\.NET\DatingApp\API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
