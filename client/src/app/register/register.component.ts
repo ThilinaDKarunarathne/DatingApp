@@ -1,6 +1,7 @@
-import { Component, EventEmitter, input, Output,} from '@angular/core';
+import { Component, inject, input, output} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from '../home/home.component';
+import { AccountService } from '../_services/account.service';
 
 @Component({
   selector: 'app-register',
@@ -10,12 +11,18 @@ import { HomeComponent } from '../home/home.component';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-  usersFromHomeComponent = input.required<any>();
-  @Output() cancelRegister = new EventEmitter();
+  private accountService = inject(AccountService);
+  cancelRegister = output<boolean>();
   model: any = {};
 
   register() {
-    console.log(this.model);
+    this.accountService.register(this.model).subscribe({
+      next: response => {
+        console.log(response);
+        this.cancel();
+      },
+      error: error => console.log(error)
+    })
   }
 
   cancel() {
