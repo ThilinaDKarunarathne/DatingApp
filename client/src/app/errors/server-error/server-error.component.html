@@ -1,0 +1,17 @@
+<h4>Interna Server Error</h4>
+@if(error){
+    <h5 class="text-danger">Error: {{error.message}}</h5>
+    <p class="fontweight-bold">Note: If you see this error Angular is not to blame!</p>
+    <p>What to do next?</p>
+    <ol>
+        <li>Open crome dev tool and check the failing network request in the network tab</li>
+        <li>Examine the request URL - what API endpoint are you requesting?</li>
+        <li>Reproduce the problem in Postman - if we get the same error Angular is 100% not the problem</li>
+    </ol>
+    <p class="font-weight-bold">Following is the stack trace - check the first 2
+    lines this tells you exatly which line of code caused the problem!</p>
+
+    <code class="mt-5" style = "background-color: whitesmoke;">
+        {{error.details}}
+    </code>
+}
