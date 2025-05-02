@@ -8,13 +8,12 @@ import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 
 @Component({
   selector: 'app-member-detail',
-  standalone: true,
   imports: [TabsModule, GalleryModule] ,
   templateUrl: './member-detail.component.html',
   styleUrl: './member-detail.component.css'
 })
 export class MemberDetailComponent {
-  private memberSetvice = inject(MembersService);
+  private memberService = inject(MembersService);
   private route = inject(ActivatedRoute);
   member?: Member;
   images: GalleryItem[] = [];
@@ -28,11 +27,11 @@ export class MemberDetailComponent {
   loadMember(){
     const username = this.route.snapshot.paramMap.get('username');
     if(!username) return;
-    this.memberSetvice.getMember(username).subscribe({
+    this.memberService.getMember(username).subscribe({
       next: member => {
         this.member = member;
         member.photos.map(p => {
-          this.images.push(new ImageItem  ({src: p.url, thumb: p.url}))
+          this.images.push(new ImageItem ({src: p.url, thumb: p.url}))
         })
     }
   })
