@@ -2,6 +2,7 @@ using System.Security.Claims;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -14,11 +15,15 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
 {
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
-        var users = await userRepository.GetMembersAsync();
+        userParams.CurrentUserName = User.GetUsername();
 
-        return Ok(users);
+        var users = await userRepository.GetMembersAsync(userParams);
+
+        Response.AddPaginationHeader(users);
+
+        return Ok(users); 
     }
 
     [HttpGet("{username}")]   // /api/users/{id}
@@ -61,6 +66,8 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
             PublicId = result.PublicId
         };
 
+        if (user.Photos.Count == 0) photo.IsMain = true;
+
         user.Photos.Add(photo);
 
         if (await userRepository.SaveAllAsync()) 
@@ -74,13 +81,17 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
     public async Task<ActionResult> SetMainPhoto(int photoId)
     {
         var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
+
         if (user == null) return BadRequest("Could not find user");
 
         var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
         if (photo == null || photo.IsMain) return BadRequest("Cannot use this photo as the main photo");
 
         var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+
         if (currentMain != null) currentMain.IsMain = false;
+
         photo.IsMain = true;
 
         if ( await userRepository.SaveAllAsync()) return NoContent();
@@ -96,6 +107,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
         if (user == null) return BadRequest("Could not find user");
 
         var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
         if (photo == null || photo.IsMain) return BadRequest("This Photo cannot be deleted!!");
 
         if(photo.PublicId != null)

@@ -25,7 +25,7 @@
                 <img 
                     src="{{accountService.currentUser()?.photoUrl || 'user.png'}}" 
                     alt="user main image">
-                <a dropdownToggle class ="dropdown-toggle text-light text-decoration-none mx-3"> Welcome {{accountService.currentUser()?.username | titlecase}} </a>
+                <a dropdownToggle class ="dropdown-toggle text-light text-decoration-none mx-3"> Welcome {{accountService.currentUser()?.knownAs}} </a>
                 <div *bsDropdownMenu class ="dropdown-menu">
                     <a routerLink="/member/edit" class="dropdown-item">Edit Profile</a>
                     <div class="dropdown-devider"></div>
