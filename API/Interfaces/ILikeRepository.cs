@@ -1,14 +1,13 @@
-using System;
-using System.Diagnostics.Eventing.Reader;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 
 namespace API.Interfaces;
 
 public interface ILikeRepository
 {
     Task<UserLike?> GetUserLike(int SourceUserId, int TargetUserId);
-    Task<IEnumerable<MemberDto>> GetUserLikes(string predicate, int userId);
+    Task<PagedList<MemberDto>> GetUserLikes(LikesParams likesParams);
     Task<IEnumerable<int>> GetCurrentUserLikeIds(int currentUserId);
     void DeleteLike(UserLike like);
     void AddLike(UserLike like);
