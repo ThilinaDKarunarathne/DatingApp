@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class LikesController(ILikeRepository likeRepository ): BaseApiController
+public class LikesController( IUnitOfWork unitOfWork): BaseApiController
 {
     [HttpPost("{targetUserId:int}")]
 
@@ -19,7 +19,7 @@ public class LikesController(ILikeRepository likeRepository ): BaseApiController
 
         if (sourceUserId == targetUserId) return BadRequest("You cannot like yourself");
 
-        var existingLike = await likeRepository.GetUserLike(sourceUserId, targetUserId);
+        var existingLike = await unitOfWork.LikesRepository.GetUserLike(sourceUserId, targetUserId);
 
         if (existingLike == null)
         {
@@ -29,14 +29,14 @@ public class LikesController(ILikeRepository likeRepository ): BaseApiController
             TargetUserId = targetUserId
         };
 
-        likeRepository.AddLike(like);
+        unitOfWork.LikesRepository.AddLike(like);
         }
         else
         {
-            likeRepository.DeleteLike(existingLike);
+            unitOfWork.LikesRepository.DeleteLike(existingLike);
         }
 
-        if (await likeRepository.SaveChanges()) return Ok();
+        if (await unitOfWork.Complele()) return Ok();
 
         return BadRequest("Failed to update like");
     }
@@ -45,7 +45,7 @@ public class LikesController(ILikeRepository likeRepository ): BaseApiController
     [HttpGet("list")]
     public async Task<ActionResult<IEnumerable<int>>> GetCurrentUserLikeIds()
     {
-        return Ok(await likeRepository.GetCurrentUserLikeIds(User.GetUserId()));
+        return Ok(await unitOfWork.LikesRepository.GetCurrentUserLikeIds(User.GetUserId()));
     }
     
 
@@ -54,7 +54,7 @@ public class LikesController(ILikeRepository likeRepository ): BaseApiController
     {
         likesParams.UserId = User.GetUserId();
 
-        var users = await likeRepository.GetUserLikes(likesParams);
+        var users = await unitOfWork.LikesRepository.GetUserLikes(likesParams);
 
         Response.AddPaginationHeader(users);
 
